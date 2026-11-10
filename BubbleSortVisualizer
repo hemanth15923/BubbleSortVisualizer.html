@@ -1,0 +1,72 @@
+#include <iostream>
+#include <utility>
+#include <vector>
+
+void printArray(const std::vector<int>& values) {
+    for (int value : values) {
+        std::cout << value << ' ';
+    }
+    std::cout << '\n';
+}
+
+int bubbleSort(std::vector<int>& values) {
+    int totalSwaps = 0;
+    int n = static_cast<int>(values.size());
+
+    for (int pass = 0; pass < n - 1; pass++) {
+        bool swapped = false;
+
+        for (int j = 0; j < n - pass - 1; j++) {
+            if (values[j] > values[j + 1]) {
+                std::swap(values[j], values[j + 1]);
+                swapped = true;
+                totalSwaps++;
+            }
+        }
+
+        std::cout << "Pass " << pass + 1 << ": ";
+        printArray(values);
+
+        if (!swapped) {
+            std::cout << "No swaps needed, array is sorted.\n";
+            break;
+        }
+    }
+
+    return totalSwaps;
+}
+
+int main() {
+    int n;
+
+    std::cout << "=== Bubble Sort Visualizer ===\n";
+    std::cout << "How many numbers? ";
+    std::cin >> n;
+
+    if (std::cin.fail() || n <= 0) {
+        std::cout << "Please enter a positive whole number.\n";
+        return 1;
+    }
+
+    std::vector<int> values(n);
+
+    std::cout << "Enter " << n << " numbers: ";
+    for (int& value : values) {
+        if (!(std::cin >> value)) {
+            std::cout << "Invalid input.\n";
+            return 1;
+        }
+    }
+
+    std::cout << "\nBefore sorting: ";
+    printArray(values);
+    std::cout << '\n';
+
+    int swaps = bubbleSort(values);
+
+    std::cout << "\nAfter sorting:  ";
+    printArray(values);
+    std::cout << "Total swaps: " << swaps << '\n';
+
+    return 0;
+}
